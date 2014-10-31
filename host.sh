@@ -1,9 +1,12 @@
 # Install prereqs.
-sudo yum groupinstall -y "Development tools"
-sudo yum install docker
-sudo /bin/bash cuda_6.5.14_linux_64.run -silent -toolkit -driver
+yum groupinstall -y "Development tools"
+yum install docker
 
-# [Reboot here]
+# Get CUDA.
+wget http://developer.download.nvidia.com/compute/cuda/6_5/rel/installers/cuda_6.5.14_linux_64.run
+
+# Install CUDA drivers.
+/bin/bash cuda_6.5.14_linux_64.run -silent -toolkit -driver
 
 # Setup CUDA devices.
 /sbin/modprobe nvidia
@@ -34,3 +37,23 @@ else
 	exit 1
 fi
 
+# Start docker.
+service docker start
+
+# Build image.
+# - Should add something here to reuse the CUDA download in the image build.
+#   For now just clean it up so it isn't included in the build context.
+rm cuda_6.5.14_linux_64.run
+docker build -t boinc-gpu .
+
+# Prepare for image.
+mkdir data
+
+# Run image.
+sudo docker run \
+  --device=/dev/nvidia0:/dev/nvidia0 \
+  --device=/dev/nvidiactl:/dev/nvidiactl \
+  --device=/dev/nvidia-uvm:/dev/nvidia-uvm \
+  -v /home/ec2-user/docker-boinc/data:/data \
+  -it \
+  --rm boinc-gpu
