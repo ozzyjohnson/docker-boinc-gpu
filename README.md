@@ -1,7 +1,7 @@
 docker-boinc-gpu
 ================
 
-A container with all the necessary to BOINC GPU projects via CUDA within Docker.
+Builds a container with all the necessary bits to run BOINC GPU projects via CUDA within Docker.
 
 ### Usage:
 
@@ -14,8 +14,15 @@ One a host with the CUDA drivers and devices present.
 	  -v /home/ec2-user/docker-boinc/data:/data \
 	  -it \
 	  --rm \
-	  ozzyjohnson/boinc-gpu
+	  boinc-gpu
+
+The script ```host.sh``` over in the GitHub repo for this build provides an easy way to create such a host.
+
+[ozzyjohnson/docker-boinc-gpu](https://github.com/ozzyjohnson/docker-boinc-gpu)
+
+Launch a ```g2.2xlarge``` with Amazon Linux (```ami-b66ed3de```), run the script.
 
 ### Next:
 
 - Script/instructions to configure the a host machine with CUDA.
+- Ready-made AMI.
