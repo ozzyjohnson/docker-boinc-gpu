@@ -1,6 +1,6 @@
 # Defaults.
-PROJECT='www.gpugrid.net'
-WEAK_KEY='60392_2214f23a8f948a0966c26928edb9e30d'
+PROJECT='http://milkyway.cs.rpi.edu/milkyway/'
+WEAK_KEY='1030352_7eb410c3bc96876f7eb90192ded60f26'
 
 # Argument parsing.
 while getopts ':p:w' flag
