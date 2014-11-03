@@ -1,9 +1,11 @@
-# Google mirrors are very fast.
 FROM ozzyjohnson/cuda
 
 MAINTAINER Ozzy Johnson <ozzy.johnson@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
+
+# Versions.
+ENV BOINC_CLIENT 7.0.27+dfsg-5
 
 # Update and install minimal.
 RUN \
@@ -13,14 +15,11 @@ RUN \
          --yes \
          --no-install-recommends \
          --no-install-suggests \
-       boinc-client \
+       boinc-client=${BOINC_CLIENT} \
 
 # Clean up packages.
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-# Simple script to get things done.
-ADD start_boinc.sh /start_boinc.sh
 
 # Data volume.
 ONBUILD VOLUME /data
@@ -29,4 +28,4 @@ ONBUILD VOLUME /data
 WORKDIR /data
 
 # Default command.
-ENTRYPOINT ["/bin/bash", "/start_boinc.sh"]
+ENTRYPOINT ["/usr/bin/boinc"]
